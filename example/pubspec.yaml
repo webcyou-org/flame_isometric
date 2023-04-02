@@ -7,7 +7,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  flame: 1.6.0
+  flame: ^1.6.0
   tiled: ^0.10.1
   flame_isometric:
     path: ../

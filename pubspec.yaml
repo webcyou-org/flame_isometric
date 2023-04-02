@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flame: 1.6.0
+  flame: ^1.6.0
   tiled: ^0.10.1
 
 dev_dependencies:
