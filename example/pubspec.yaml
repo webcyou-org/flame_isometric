@@ -1,5 +1,5 @@
 name: example
-description: isometric_map
+description: Here is a sample of rendering a tile map using flame isometric.
 version: 0.0.1
 environment:
   sdk: '>=2.19.4 <4.0.0'
