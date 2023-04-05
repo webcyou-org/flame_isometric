@@ -12,6 +12,8 @@ dependencies:
     sdk: flutter
   flame: ^1.6.0
   tiled: ^0.10.1
+  xml: ^6.2.2
+  path: ^1.8.3
 
 dev_dependencies:
   flutter_test:
