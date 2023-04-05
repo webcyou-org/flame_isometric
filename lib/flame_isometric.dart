@@ -23,7 +23,10 @@ class FlameIsometric extends FlameGame {
 
   FlameIsometric._();
 
-  static Future<FlameIsometric> create({required String tmx, required dynamic tileMap, List<String>? tsxList}) async {
+  static Future<FlameIsometric> create(
+      {required String tmx,
+      required dynamic tileMap,
+      List<String>? tsxList}) async {
     var flameIsometric = FlameIsometric._();
     flameIsometric.tmxSrc = tmx;
 
@@ -67,23 +70,25 @@ class FlameIsometric extends FlameGame {
     return tilesetImageList;
   }
 
-  List<SpriteSheet> createSpriteSheetList(TiledMap tiledMap, List<dynamic> tilesetImageList) {
+  List<SpriteSheet> createSpriteSheetList(
+      TiledMap tiledMap, List<dynamic> tilesetImageList) {
     final List<SpriteSheet> tilesetList = [];
 
     for (var i = 0; i < tilesetImageList.length; i++) {
-      final tileWidth = tiledMap.tilesets[i].tileWidth != null ? tiledMap.tilesets[i].tileWidth?.toDouble() : srcTileSize.x;
-      final tileHeight = tiledMap.tilesets[i].tileHeight != null ? tiledMap.tilesets[i].tileHeight?.toDouble() : srcTileSize.x;
+      final tileWidth = tiledMap.tilesets[i].tileWidth != null
+          ? tiledMap.tilesets[i].tileWidth?.toDouble()
+          : srcTileSize.x;
+      final tileHeight = tiledMap.tilesets[i].tileHeight != null
+          ? tiledMap.tilesets[i].tileHeight?.toDouble()
+          : srcTileSize.x;
 
-      tilesetList.add(
-          SpriteSheet(
-            image: tilesetImageList[i],
-            srcSize: Vector2(tileWidth!, tileHeight!),
-          )
-      );
+      tilesetList.add(SpriteSheet(
+        image: tilesetImageList[i],
+        srcSize: Vector2(tileWidth!, tileHeight!),
+      ));
     }
     return tilesetList;
   }
-
 
   Future<TiledMap> createTiledMap(String tmxXML) async {
     final TiledMap tiledMap;
@@ -94,10 +99,9 @@ class FlameIsometric extends FlameGame {
     }
 
     if (tsxSrcList.length > 1) {
-      final customTsxProviderList = List<CustomTsxProvider>.generate(tsxXMLList.length, (index) => CustomTsxProvider(
-        tsxSrcList[index],
-        tsxXMLList[index]
-      ));
+      final customTsxProviderList = List<CustomTsxProvider>.generate(
+          tsxXMLList.length,
+          (index) => CustomTsxProvider(tsxSrcList[index], tsxXMLList[index]));
       tiledMap = TileMapParser.parseTmx(tmxXML, tsxList: customTsxProviderList);
     } else {
       tiledMap = TileMapParser.parseTmx(tmxXML);
@@ -106,14 +110,19 @@ class FlameIsometric extends FlameGame {
   }
 
   List<List<int>> getSpriteSheetMatrix(layer) {
-    return List<List<int>>.generate(layer.height, (row) => List.generate(layer.width, (col) => layer.data != null ? layer.data[row * layer.width + col] - 1 : -1),);
+    return List<List<int>>.generate(
+      layer.height,
+      (row) => List.generate(
+          layer.width,
+          (col) => layer.data != null
+              ? layer.data[row * layer.width + col] - 1
+              : -1),
+    );
   }
 
   List<List<List<int>>> getMatrixList(layers) {
     late List<List<List<int>>> matrixList = [];
-    layers.forEach((layer) => {
-      matrixList.add(getSpriteSheetMatrix(layer))
-    });
+    layers.forEach((layer) => {matrixList.add(getSpriteSheetMatrix(layer))});
     return matrixList;
   }
 }

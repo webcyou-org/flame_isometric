@@ -17,10 +17,9 @@ class MainGameState extends State<MainGamePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
-          children: [
-            GameWidget(game: game),
-          ],
-        )
-    );
+      children: [
+        GameWidget(game: game),
+      ],
+    ));
   }
 }

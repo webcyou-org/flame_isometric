@@ -9,9 +9,7 @@ void main() {
 
   test('layer Length check', () async {
     final flameIsometric = await FlameIsometric.create(
-        tileMap: 'tile_map.png',
-        tmx: 'tiles/tile_map.tmx'
-    );
+        tileMap: 'tile_map.png', tmx: 'tiles/tile_map.tmx');
 
     expect(flameIsometric.layerLength, 3);
   });
