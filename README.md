@@ -1,6 +1,8 @@
 # Flame Isometric
 ## Generate matrix for IsometricTileMapComponent
 
+[![Pub](https://img.shields.io/pub/v/flame_isometric.svg)](https://pub.dartlang.org/packages/flame_isometric)
+
 The matrix required to render an isometric tile map using the IsometricTileMapComponent in [Flame](https://github.com/flame-engine), Flutter's frame game engine. This plugin generates the
 
 <img width="600" src="https://user-images.githubusercontent.com/1584153/229280525-558709e9-7594-4296-9a90-e23423f1ffe9.png">
@@ -50,7 +52,7 @@ Please note that tsxList is required in this case.
 final flameIsometric = await FlameIsometric.create(tileMap: ['tile_map.png', 'tile_map2.png'], tsxList: ['tile_map.tsx', 'tile_map2.tsx'], tmx: 'tiles/tile_map.tmx');
 ```
 
-
+These sample sources can be found [here](https://github.com/webcyou-org/flame_isometric/tree/main/example).
 
 ## Create Reference
 
