@@ -52,6 +52,19 @@ Please note that tsxList is required in this case.
 final flameIsometric = await FlameIsometric.create(tileMap: ['tile_map.png', 'tile_map2.png'], tsxList: ['tile_map.tsx', 'tile_map2.tsx'], tmx: 'tiles/tile_map.tmx');
 ```
 
+One is a tileset of size 64x64.
+
+<img width="250" src="https://user-images.githubusercontent.com/1584153/230427233-1e028758-a57e-47be-b381-f20ebd673394.png">
+
+The other is to use a tileset of size 128x128 and tilesets of different sizes.
+
+<img width="250" src="https://user-images.githubusercontent.com/1584153/230427438-b4298ddd-ff02-4dda-82a4-82f48ce61de4.png">
+
+When combined, the tiled map looks like this. You can use this map to adapt the game engine to use the Flame game engine.
+
+<img width="600" src="https://user-images.githubusercontent.com/1584153/230428070-e7d902ae-2276-42d4-aff6-5a5b3e17c73b.png">
+
+
 These sample sources can be found [here](https://github.com/webcyou-org/flame_isometric/tree/main/example).
 
 ## Create Reference
@@ -91,9 +104,9 @@ Mainly, the floor is placed in the "bottom" layer. The "middle" layer is for wal
 
 ### copyright holder
 
-isometric-64x64-medieval-building-tileset
+isometric-64x64-medieval-building-tileset : [Seth Galbraith](https://opengameart.org/content/isometric-64x64-medieval-building-tileset)
 
-[Seth Galbraith](https://opengameart.org/content/isometric-64x64-medieval-building-tileset)
+basic isometric tiles 128x128 : [ToxSickProductions.com](https://opengameart.org/content/basic-isometric-tiles-128x128)
 
 I appreciate it very much.
 
