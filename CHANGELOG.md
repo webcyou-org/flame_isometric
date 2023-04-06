@@ -1,3 +1,7 @@
+## 0.2.3
+* Improve:
+  1. flame game Deleted from inheritance.
+
 ## 0.2.2
 * Improve:
   1. The patch version of the path package was lowered.

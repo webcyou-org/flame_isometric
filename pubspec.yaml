@@ -1,6 +1,6 @@
 name: flame_isometric
 description: Isometric map generation using Flame, Flutter's game engine.
-version: 0.2.2
+version: 0.2.3
 homepage: https://github.com/webcyou-org/flame_isometric
 
 environment:

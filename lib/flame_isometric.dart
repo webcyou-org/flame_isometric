@@ -1,12 +1,13 @@
 library flame_isometric;
 
+import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame/sprite.dart';
 import 'package:tiled/tiled.dart';
 
 import 'custom_tsx_provider.dart';
 
-class FlameIsometric extends FlameGame {
+class FlameIsometric {
   late String tmxSrc;
   late String tileMapSrc;
   List<String> tileMapSrcList = [];
@@ -45,7 +46,7 @@ class FlameIsometric extends FlameGame {
   }
 
   Future<FlameIsometric> _init() async {
-    final tmxXML = await assets.readFile(tmxSrc);
+    final tmxXML = await Flame.assets.readFile(tmxSrc);
     final TiledMap tiledMap = await createTiledMap(tmxXML);
     final layers = tiledMap.layers.whereType<TileLayer>();
     layerLength = layers.length;
@@ -65,7 +66,7 @@ class FlameIsometric extends FlameGame {
   Future<List<dynamic>> createTilesetImageList() async {
     final tilesetImageList = [];
     for (var i = 0; i < tileMapSrcList.length; i++) {
-      tilesetImageList.add(await images.load(tileMapSrc));
+      tilesetImageList.add(await Flame.images.load(tileMapSrc));
     }
     return tilesetImageList;
   }
@@ -95,7 +96,7 @@ class FlameIsometric extends FlameGame {
     final tsxXMLList = [];
 
     for (var i = 0; i < tsxSrcList.length; i++) {
-      tsxXMLList.add(await assets.readFile(tsxSrcList[i]));
+      tsxXMLList.add(await Flame.assets.readFile(tsxSrcList[i]));
     }
 
     if (tsxSrcList.length > 1) {
