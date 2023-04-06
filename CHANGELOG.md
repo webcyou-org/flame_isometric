@@ -1,3 +1,7 @@
+## 0.2.2
+* Improve:
+  1. The patch version of the path package was lowered.
+
 ## 0.2.1
 * Improve:
   1. Sample pages Delete unnecessary files.
