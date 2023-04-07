@@ -70,7 +70,7 @@ class FlameIsometric {
   Future<List<dynamic>> createTilesetImageList() async {
     final tilesetImageList = [];
     for (var i = 0; i < tileMapSrcList.length; i++) {
-      tilesetImageList.add(await Flame.images.load(tileMapSrc));
+      tilesetImageList.add(await Flame.images.load(tileMapSrcList[i]));
     }
     return tilesetImageList;
   }
