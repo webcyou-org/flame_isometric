@@ -110,6 +110,10 @@ class FlameIsometric {
     return tiledMap;
   }
 
+  List<int> getMatrixFlatten(index) {
+    return matrixList[index].expand((v) => v).toList();
+  }
+
   List<List<int>> getSpriteSheetMatrix(layer) {
     return List<List<int>>.generate(
       layer.height,
