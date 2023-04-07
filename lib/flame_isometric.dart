@@ -10,17 +10,12 @@ import 'custom_tsx_provider.dart';
 class FlameIsometric {
   late String tmxSrc;
   late String tileMapSrc;
+  late TiledMap tiledMap;
   List<String> tileMapSrcList = [];
   List<String> tsxSrcList = [];
 
   late List<List<List<int>>> matrixList = [];
-  late SpriteSheet tileset;
-  List<SpriteSheet> tilesetList = [];
-
-  late Vector2 srcTileSize;
-  late int tileWidth;
-  late int tileHeight;
-  late int layerLength = 0;
+  List<SpriteSheet> spriteSheetList = [];
 
   FlameIsometric._();
 
@@ -47,21 +42,30 @@ class FlameIsometric {
 
   Future<FlameIsometric> _init() async {
     final tmxXML = await Flame.assets.readFile(tmxSrc);
-    final TiledMap tiledMap = await createTiledMap(tmxXML);
-    final layers = tiledMap.layers.whereType<TileLayer>();
-    layerLength = layers.length;
+    tiledMap = await createTiledMap(tmxXML);
+
+    final Iterable<TileLayer> layers = tiledMap.layers.whereType<TileLayer>();
     matrixList = getMatrixList(layers);
-    tileWidth = tiledMap.tileWidth;
-    tileHeight = tiledMap.tileHeight;
-    srcTileSize = Vector2(tileWidth.toDouble(), tileWidth.toDouble());
+    spriteSheetList =
+        createSpriteSheetList(tiledMap, await createTilesetImageList());
 
-    final tilesetImageList = await createTilesetImageList();
-    final spriteSheetList = createSpriteSheetList(tiledMap, tilesetImageList);
-
-    tileset = spriteSheetList[0];
-    tilesetList = spriteSheetList;
     return this;
   }
+
+  Iterable<TileLayer> get layerList => tiledMap.layers.whereType<TileLayer>();
+
+  int get layerLength => tiledMap.layers.length;
+
+  int get tileWidth => tiledMap.tileWidth;
+
+  int get tileHeight => tiledMap.tileHeight;
+
+  Vector2 get srcTileSize =>
+      Vector2(tileWidth.toDouble(), tileWidth.toDouble());
+
+  SpriteSheet get tileset => spriteSheetList[0];
+
+  List<SpriteSheet> get tilesetList => spriteSheetList;
 
   Future<List<dynamic>> createTilesetImageList() async {
     final tilesetImageList = [];
