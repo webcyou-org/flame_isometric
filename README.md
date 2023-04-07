@@ -7,7 +7,6 @@
 ![GitHub stars](https://img.shields.io/github/stars/webcyou-org/flame_isometric)
 [![pub points](https://img.shields.io/pub/points/flame_isometric?logo=dart)](https://pub.dev/packages/flame_isometric/score)
 
-
 The matrix required to render an isometric tile map using the IsometricTileMapComponent in [Flame](https://github.com/flame-engine), Flutter's frame game engine. This plugin generates the
 
 <img width="600" src="https://user-images.githubusercontent.com/1584153/229280525-558709e9-7594-4296-9a90-e23423f1ffe9.png">
