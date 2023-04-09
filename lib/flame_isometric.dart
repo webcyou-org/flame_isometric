@@ -67,6 +67,8 @@ class FlameIsometric {
 
   List<SpriteSheet> get tilesetList => spriteSheetList;
 
+  Iterable<int>? get firstGridIdList => tiledMap.tilesets.map((tileset) => tileset.firstGid ?? 0);
+
   Future<List<dynamic>> createTilesetImageList() async {
     final tilesetImageList = [];
     for (var i = 0; i < tileMapSrcList.length; i++) {
@@ -133,5 +135,50 @@ class FlameIsometric {
     late List<List<List<int>>> matrixList = [];
     layers.forEach((layer) => {matrixList.add(getSpriteSheetMatrix(layer))});
     return matrixList;
+  }
+
+  getGidFlattenIndex(int x, int y, layer) => y * layer.width + x;
+
+  getGridIdList(int x, int y) => tiledMap.layers.map((layer) => getGridId(x, y, layer.id!)).toList();
+
+  // getGridId(int x, int y, int layerId) => getLayer(layerId).first.data[getGidFlattenIndex(x, y, layer)];
+  getGridId(int x, int y, int layerId) => getLayer(layerId).first.tileData[y][x].tile;
+
+  getLayer(int layerId) => layerList.where((layer) => layer.id == layerId);
+
+  int? getTilesetIndexByGid(int gid) => firstGridIdList?.toList().lastIndexWhere((id) => id <= gid);
+
+  Tileset getTilesetByGid(int gid) {
+    int index = getTilesetIndexByGid(gid) ?? 0;
+    index = index < 0 ? 0 : index;
+    return tiledMap.tilesets[index];
+  }
+
+  getTileCustomPropertiesByPosition(int x, int y) {
+    final gridIdList = getGridIdList(x, y);
+    final tileSetList = gridIdList.map((gid) => getTilesetByGid(gid));
+    final matchPropertyList = [];
+
+    tileSetList.forEach((tileSet) => {
+      tileSet.tiles.forEach((tile) => {
+        if (tile.properties.length > 0) {
+          matchPropertyList.add(tile.properties)
+        }
+      })
+    });
+    return matchPropertyList;
+  }
+
+  getTileCustomPropertiesByPositionAndLayer(int x, int y, int layerId) {
+    final gridId = getGridId(x, y, layerId);
+    final tileSet = getTilesetByGid(gridId);
+    final matchPropertyList = [];
+
+    for (var tile in tileSet.tiles) {
+      if (tile.properties.isNotEmpty) {
+        matchPropertyList.add(tile.properties);
+      }
+    }
+    return matchPropertyList;
   }
 }
