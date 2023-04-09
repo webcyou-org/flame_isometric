@@ -1,3 +1,10 @@
+## 0.3.0
+* Features:
+  - Support for rendering multiple tile sets
+  1. Allow specifying the appropriate sheet and index from the matrix.
+  2. Tile map attribute acquisition
+  3. Provides API for 1D arrays
+
 ## 0.2.3
 * Improve:
   1. flame game Deleted from inheritance.
