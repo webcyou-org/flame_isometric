@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-
 import 'package:flame_isometric/flame_isometric.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,10 +35,10 @@ class MainGameState extends State<MainGamePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
-          children: [
-            GameWidget(game: game),
-          ],
-        ));
+      children: [
+        GameWidget(game: game),
+      ],
+    ));
   }
 }
 
@@ -55,10 +54,10 @@ class MainGame extends FlameGame with HasGameRef {
       add(
         IsometricTileMapComponent(
           flameIsometric.tileset,
-          flameIsometric.matrixList[i],
+          flameIsometric.renderMatrixList[i],
           destTileSize: flameIsometric.srcTileSize,
           position:
-          Vector2(gameSize.x / 2, flameIsometric.tileHeight.toDouble()),
+              Vector2(gameSize.x / 2, flameIsometric.tileHeight.toDouble()),
         ),
       );
     }

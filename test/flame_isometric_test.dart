@@ -17,7 +17,7 @@ void main() {
 
     group('flameIsometric public parameter', () {
       test('Matrix List check', () {
-        expect(flameIsometric.matrixList[0], [
+        expect(flameIsometric.renderMatrixList[0], [
           [0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
           [0, 2, 0, 2, 2, 2, 28, 2, 2, 2, 2, 2, 2, 2, 2, 2],
           [0, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
@@ -55,7 +55,7 @@ void main() {
 
     group('public API', () {
       test('Convert Matrix to 1D array', () async {
-        expect(flameIsometric.getMatrixFlatten(0), [
+        expect(flameIsometric.getRenderMatrixFlatten(0), [
           0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, // ignore: line_length
           0, 2, 0, 2, 2, 2, 28, 2, 2, 2, 2, 2, 2, 2, 2, 2,
           0, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
@@ -123,8 +123,13 @@ void main() {
     });
 
     group('public API', () {
-      test('Get a flat list of gids with x, y coordinates and layer as arguments.', () {
-        expect(flameIsometric.getGidFlattenIndex(1, 1, flameIsometric.tiledMap.layers.first), 17);
+      test(
+          'Get a flat list of gids with x, y coordinates and layer as arguments.',
+          () {
+        expect(
+            flameIsometric.getGidFlattenIndex(
+                1, 1, flameIsometric.tiledMap.layers.first),
+            17);
       });
 
       test('Pass x, y coordinates and layerId to get gid', () {
@@ -160,7 +165,8 @@ void main() {
       });
 
       test('getTileCustomPropertiesByPosition', () {
-        final matchPropertyList = flameIsometric.getTileCustomPropertiesByPosition(2, 12);
+        final matchPropertyList =
+            flameIsometric.getTileCustomPropertiesByPosition(2, 12);
         expect(matchPropertyList.first.getValue('blocked'), true);
       });
     });
