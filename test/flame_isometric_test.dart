@@ -120,6 +120,32 @@ void main() {
       test('first GridId List', () {
         expect(flameIsometric.firstGridIdList?.toList(), [1, 81]);
       });
+
+      test('get GridId Range index', () {
+        expect(flameIsometric.getGridIdRangeIndex(0), -1);
+        expect(flameIsometric.getGridIdRangeIndex(1), 0);
+        expect(flameIsometric.getGridIdRangeIndex(80), 0);
+        expect(flameIsometric.getGridIdRangeIndex(81), 1);
+      });
+
+      test('get mapping tile map index', () {
+        expect(flameIsometric.getTilesetIndexMapping(
+            [[0, 45, 80, 81, 130, 0], [1, 2, 3, 130]]
+        ), [[-1, 0, 0, 1, 1, -1], [0, 0, 0, 1]]);
+      });
+
+      test('get Tileset Index UniqueList', () {
+        expect(flameIsometric.getTilesetIndexUniqueList(
+            [[0, 45, 80, 81, 130, 0], [1, 2, 3, 130]]
+        ), [-1, 0, 1]);
+      });
+
+      test('get Fixed Render TilesetIndex MatrixList', () {
+        expect(flameIsometric.getFixedRenderTilesetIndexMatrixList(
+            [[0, 45, 80, 81, 130, 0], [1, 2, 3, 130]]
+        ), [[[-1, 44, 79, -1, -1, -1], [0, 1, 2, -1]],
+        [[-1, -1, -1, 0, 49, -1], [-1, -1, -1, 49]]]);
+      });
     });
 
     group('public API', () {
