@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-
 import 'package:flame_isometric/flame_isometric.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,10 +35,10 @@ class MainGameState extends State<MainGamePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
-          children: [
-            GameWidget(game: game),
-          ],
-        ));
+      children: [
+        GameWidget(game: game),
+      ],
+    ));
   }
 }
 
@@ -48,14 +47,33 @@ class MainGame extends FlameGame with HasGameRef {
   Future<void> onLoad() async {
     super.onLoad();
     final gameSize = gameRef.size;
-    final flameIsometric = await FlameIsometric.create(
-        tileMap: 'tile_map.png', tmx: 'tiles/tile_map.tmx');
+    // single
+    // final flameIsometric = await FlameIsometric.create(
+    //     tileMap: 'tile_map.png', tmx: 'tiles/tile_map.tmx');
+    //
+    // for (var i = 0; i < flameIsometric.layerLength; i++) {
+    //   add(
+    //     IsometricTileMapComponent(
+    //       flameIsometric.tileset,
+    //       flameIsometric.renderMatrixList[i],
+    //       destTileSize: flameIsometric.srcTileSize,
+    //       position:
+    //           Vector2(gameSize.x / 2, flameIsometric.tileHeight.toDouble()),
+    //     ),
+    //   );
+    // }
 
-    for (var i = 0; i < flameIsometric.layerLength; i++) {
+    final flameIsometric = await FlameIsometric.create(
+        tileMap: ['tile_map.png', 'tile_map2.png'],
+        tsxList: ['tiles/tile_map.tsx', 'tiles/tile_map2.tsx'],
+        tmx: 'tiles/tile_map2.tmx'
+    );
+
+    for (var renderLayer in flameIsometric.renderLayerList) {
       add(
         IsometricTileMapComponent(
-          flameIsometric.tileset,
-          flameIsometric.matrixList[i],
+          renderLayer.spriteSheet,
+          renderLayer.matrix,
           destTileSize: flameIsometric.srcTileSize,
           position:
           Vector2(gameSize.x / 2, flameIsometric.tileHeight.toDouble()),

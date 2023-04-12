@@ -6,6 +6,7 @@ import 'package:flame/sprite.dart';
 import 'package:tiled/tiled.dart';
 
 import 'custom_tsx_provider.dart';
+import 'src/render_layer.dart';
 
 class FlameIsometric {
   late String tmxSrc;
@@ -13,8 +14,6 @@ class FlameIsometric {
   late TiledMap tiledMap;
   List<String> tileMapSrcList = [];
   List<String> tsxSrcList = [];
-
-  late List<List<List<int>>> matrixList = [];
   List<SpriteSheet> spriteSheetList = [];
 
   FlameIsometric._();
@@ -43,16 +42,16 @@ class FlameIsometric {
   Future<FlameIsometric> _init() async {
     final tmxXML = await Flame.assets.readFile(tmxSrc);
     tiledMap = await createTiledMap(tmxXML);
-
-    final Iterable<TileLayer> layers = tiledMap.layers.whereType<TileLayer>();
-    matrixList = getMatrixList(layers);
     spriteSheetList =
         createSpriteSheetList(tiledMap, await createTilesetImageList());
-
     return this;
   }
 
   Iterable<TileLayer> get layerList => tiledMap.layers.whereType<TileLayer>();
+
+  List<List<List<int>>> get matrixList => _getMatrixList();
+
+  List<List<List<int>>> get renderMatrixList => _getRenderMatrixList();
 
   int get layerLength => tiledMap.layers.length;
 
@@ -67,7 +66,23 @@ class FlameIsometric {
 
   List<SpriteSheet> get tilesetList => spriteSheetList;
 
-  Iterable<int>? get firstGridIdList => tiledMap.tilesets.map((tileset) => tileset.firstGid ?? 0);
+  Iterable<int>? get firstGridIdList =>
+      tiledMap.tilesets.map((tileset) => tileset.firstGid ?? 0);
+
+  List<RenderLayer> get renderLayerList {
+    List<RenderLayer> renderLayerList = [];
+
+    for (var matrix in matrixList) {
+      final fixedRenderTilesetIndexMatrixList =
+          getFixedRenderTilesetIndexMatrixList(matrix);
+
+      for (var i = 0; i < fixedRenderTilesetIndexMatrixList.length; i++) {
+        renderLayerList.add(
+            RenderLayer(fixedRenderTilesetIndexMatrixList[i], tilesetList[i]));
+      }
+    }
+    return renderLayerList;
+  }
 
   Future<List<dynamic>> createTilesetImageList() async {
     final tilesetImageList = [];
@@ -120,6 +135,20 @@ class FlameIsometric {
     return matrixList[index].expand((v) => v).toList();
   }
 
+  List<int> getRenderMatrixFlatten(index) {
+    return renderMatrixList[index].expand((v) => v).toList();
+  }
+
+  List<List<int>> getMatrix(layer) {
+    return List<List<int>>.generate(
+      layer.height,
+      (row) => List.generate(
+          layer.width,
+          (col) =>
+              layer.data != null ? layer.data[row * layer.width + col] : 0),
+    );
+  }
+
   List<List<int>> getSpriteSheetMatrix(layer) {
     return List<List<int>>.generate(
       layer.height,
@@ -131,22 +160,80 @@ class FlameIsometric {
     );
   }
 
-  List<List<List<int>>> getMatrixList(layers) {
+  List<List<List<int>>> _getMatrixList() {
     late List<List<List<int>>> matrixList = [];
-    layers.forEach((layer) => {matrixList.add(getSpriteSheetMatrix(layer))});
+    for (var layer in layerList) {
+      matrixList.add(getMatrix(layer));
+    }
     return matrixList;
+  }
+
+  List<List<List<int>>> _getRenderMatrixList() {
+    late List<List<List<int>>> matrixList = [];
+    for (var layer in layerList) {
+      matrixList.add(getSpriteSheetMatrix(layer));
+    }
+    return matrixList;
+  }
+
+  List<List<List<int>>> getFixedRenderTilesetIndexMatrixList(
+      List<List<int>> matrix) {
+    List<int> tilesetIndexUniqueList = getTilesetIndexUniqueList(matrix)
+      ..remove(-1);
+    List<int>? gridIdList = firstGridIdList?.toList();
+    final List<List<List<int>>> resultList = [];
+    for (int i = 0; i < tilesetIndexUniqueList.length; i++) {
+      resultList.add(matrix
+          .map((xList) => xList
+              .map((n) => i == getGridIdRangeIndex(n) ? n - gridIdList![i] : -1)
+              .toList())
+          .toList());
+    }
+    return resultList;
+  }
+
+  List<int> getTilesetIndexUniqueList(List<List<int>> matrix) {
+    List<List<int>> tilesetIndexMapping = getTilesetIndexMapping(matrix);
+    List<int> tilesetIndexUniqueList =
+        tilesetIndexMapping.expand((v) => v).toList();
+    return tilesetIndexUniqueList.toSet().toList();
+  }
+
+  List<List<int>> getTilesetIndexMapping(List<List<int>> matrix) {
+    return matrix
+        .map((xList) => xList.map((n) => getGridIdRangeIndex(n)).toList())
+        .toList();
   }
 
   getGidFlattenIndex(int x, int y, layer) => y * layer.width + x;
 
-  getGridIdList(int x, int y) => tiledMap.layers.map((layer) => getGridId(x, y, layer.id!)).toList();
+  getGridIdList(int x, int y) =>
+      tiledMap.layers.map((layer) => getGridId(x, y, layer.id!)).toList();
 
   // getGridId(int x, int y, int layerId) => getLayer(layerId).first.data[getGidFlattenIndex(x, y, layer)];
-  getGridId(int x, int y, int layerId) => getLayer(layerId).first.tileData[y][x].tile;
+  getGridId(int x, int y, int layerId) =>
+      getLayer(layerId).first.tileData[y][x].tile;
+
+  int getGridIdRangeIndex(int num) {
+    List<int>? gridIdList = firstGridIdList?.toList();
+    int index = -1;
+
+    for (int i = 0; i < gridIdList!.length; i++) {
+      if (num < gridIdList![i]) {
+        index = i;
+        break;
+      }
+    }
+    if (index == -1) {
+      index = gridIdList.length;
+    }
+    return index - 1;
+  }
 
   getLayer(int layerId) => layerList.where((layer) => layer.id == layerId);
 
-  int? getTilesetIndexByGid(int gid) => firstGridIdList?.toList().lastIndexWhere((id) => id <= gid);
+  int? getTilesetIndexByGid(int gid) =>
+      firstGridIdList?.toList().lastIndexWhere((id) => id <= gid);
 
   Tileset getTilesetByGid(int gid) {
     int index = getTilesetIndexByGid(gid) ?? 0;
@@ -160,12 +247,11 @@ class FlameIsometric {
     final matchPropertyList = [];
 
     tileSetList.forEach((tileSet) => {
-      tileSet.tiles.forEach((tile) => {
-        if (tile.properties.length > 0) {
-          matchPropertyList.add(tile.properties)
-        }
-      })
-    });
+          tileSet.tiles.forEach((tile) => {
+                if (tile.properties.length > 0)
+                  {matchPropertyList.add(tile.properties)}
+              })
+        });
     return matchPropertyList;
   }
 
