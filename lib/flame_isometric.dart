@@ -219,7 +219,7 @@ class FlameIsometric {
     int index = -1;
 
     for (int i = 0; i < gridIdList!.length; i++) {
-      if (num < gridIdList![i]) {
+      if (num < gridIdList[i]) {
         index = i;
         break;
       }
