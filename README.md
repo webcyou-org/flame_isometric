@@ -88,7 +88,9 @@ for (var renderLayer in flameIsometric.renderLayerList) {
 }
 ```
 
+Tile sets of different sizes can be displayed, but the tile size and sprite image size seem to be the same on the IsometricTileMapComponent side, so the intended display is not achieved.
 
+It seems that more work needs to be done.
 
 These sample sources can be found [here](https://github.com/webcyou-org/flame_isometric/tree/main/example).
 
