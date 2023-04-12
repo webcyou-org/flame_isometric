@@ -1,3 +1,9 @@
+## 0.4.0
+* Features:
+    - Support for rendering multiple tile sets
+    1. Create RenderLayerList to get the exact render layer.
+    2. Change matrixList to renderMatrixList.
+
 ## 0.3.0
 * Features:
   - Support for rendering multiple tile sets
