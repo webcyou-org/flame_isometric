@@ -36,7 +36,7 @@ for (var i = 0; i < flameIsometric.layerLength; i++) {
   add(
     IsometricTileMapComponent(
       flameIsometric.tileset,
-      flameIsometric.matrixList[i],
+      flameIsometric.renderMatrixList[i],
       destTileSize: flameIsometric.srcTileSize,
       position: Vector2(gameSize.x / 2, flameIsometric.tileHeight.toDouble()),
     ),
@@ -53,7 +53,11 @@ Specify a tileMap with a List as the argument, and tsxList also specifies a List
 Please note that tsxList is required in this case.
 
 ```dart
-final flameIsometric = await FlameIsometric.create(tileMap: ['tile_map.png', 'tile_map2.png'], tsxList: ['tile_map.tsx', 'tile_map2.tsx'], tmx: 'tiles/tile_map.tmx');
+final flameIsometric = await FlameIsometric.create(
+    tileMap: ['tile_map.png', 'tile_map2.png'],
+    tsxList: ['tiles/tile_map.tsx', 'tiles/tile_map2.tsx'],
+    tmx: 'tiles/tile_map2.tmx'
+);
 ```
 
 One is a tileset of size 64x64.
@@ -67,6 +71,23 @@ The other is to use a tileset of size 128x128 and tilesets of different sizes.
 When combined, the tiled map looks like this. You can use this map to adapt the game engine to use the Flame game engine.
 
 <img width="600" src="https://user-images.githubusercontent.com/1584153/230428070-e7d902ae-2276-42d4-aff6-5a5b3e17c73b.png">
+
+The exact layer containing multiple tile chips can be obtained with renderLayerList, which is used to render the number of layers in a for statement.
+
+```dart
+for (var renderLayer in flameIsometric.renderLayerList) {
+  add(
+    IsometricTileMapComponent(
+      renderLayer.spriteSheet,
+      renderLayer.matrix,
+      destTileSize: flameIsometric.srcTileSize,
+      position:
+      Vector2(gameSize.x / 2, flameIsometric.tileHeight.toDouble()),
+    ),
+  );
+}
+```
+
 
 
 These sample sources can be found [here](https://github.com/webcyou-org/flame_isometric/tree/main/example).

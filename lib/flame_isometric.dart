@@ -73,12 +73,12 @@ class FlameIsometric {
     List<RenderLayer> renderLayerList = [];
 
     for (var matrix in matrixList) {
-      final fixedRenderTilesetIndexMatrixList = getFixedRenderTilesetIndexMatrixList(matrix);
+      final fixedRenderTilesetIndexMatrixList =
+          getFixedRenderTilesetIndexMatrixList(matrix);
 
       for (var i = 0; i < fixedRenderTilesetIndexMatrixList.length; i++) {
         renderLayerList.add(
-            RenderLayer(fixedRenderTilesetIndexMatrixList[i], tilesetList[i])
-        );
+            RenderLayer(fixedRenderTilesetIndexMatrixList[i], tilesetList[i]));
       }
     }
     return renderLayerList;
@@ -176,24 +176,33 @@ class FlameIsometric {
     return matrixList;
   }
 
-  List<List<List<int>>> getFixedRenderTilesetIndexMatrixList(List<List<int>> matrix) {
-    List<int> tilesetIndexUniqueList = getTilesetIndexUniqueList(matrix)..remove(-1);
+  List<List<List<int>>> getFixedRenderTilesetIndexMatrixList(
+      List<List<int>> matrix) {
+    List<int> tilesetIndexUniqueList = getTilesetIndexUniqueList(matrix)
+      ..remove(-1);
     List<int>? gridIdList = firstGridIdList?.toList();
     final List<List<List<int>>> resultList = [];
     for (int i = 0; i < tilesetIndexUniqueList.length; i++) {
-      resultList.add(matrix.map((xList) => xList.map((n) => i == getGridIdRangeIndex(n) ? n - gridIdList![i] : -1).toList()).toList());
+      resultList.add(matrix
+          .map((xList) => xList
+              .map((n) => i == getGridIdRangeIndex(n) ? n - gridIdList![i] : -1)
+              .toList())
+          .toList());
     }
     return resultList;
   }
 
   List<int> getTilesetIndexUniqueList(List<List<int>> matrix) {
     List<List<int>> tilesetIndexMapping = getTilesetIndexMapping(matrix);
-    List<int> tilesetIndexUniqueList = tilesetIndexMapping.expand((v) => v).toList();
+    List<int> tilesetIndexUniqueList =
+        tilesetIndexMapping.expand((v) => v).toList();
     return tilesetIndexUniqueList.toSet().toList();
   }
 
   List<List<int>> getTilesetIndexMapping(List<List<int>> matrix) {
-    return matrix.map((xList) => xList.map((n) => getGridIdRangeIndex(n)).toList()).toList();
+    return matrix
+        .map((xList) => xList.map((n) => getGridIdRangeIndex(n)).toList())
+        .toList();
   }
 
   getGidFlattenIndex(int x, int y, layer) => y * layer.width + x;
@@ -218,7 +227,7 @@ class FlameIsometric {
     if (index == -1) {
       index = gridIdList.length;
     }
-    return index -1;
+    return index - 1;
   }
 
   getLayer(int layerId) => layerList.where((layer) => layer.id == layerId);
