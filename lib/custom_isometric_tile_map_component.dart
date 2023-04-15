@@ -17,13 +17,11 @@ class CustomIsometricTileMapComponent extends IsometricTileMapComponent {
     super.priority,
   }) : _renderSprite = Sprite(tileset.image);
 
-  @override
   Sprite _renderSprite;
 
   @override
   void render(Canvas c) {
     _renderSprite.image = tileset.image;
-    final size = effectiveTileSize;
     for (var i = 0; i < matrix.length; i++) {
       for (var j = 0; j < matrix[i].length; j++) {
         final element = matrix[i][j];
