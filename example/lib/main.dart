@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_isometric/flame_isometric.dart';
+import 'package:flame_isometric/custom_isometric_tile_map_component.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -71,7 +72,7 @@ class MainGame extends FlameGame with HasGameRef {
 
     for (var renderLayer in flameIsometric.renderLayerList) {
       add(
-        IsometricTileMapComponent(
+        CustomIsometricTileMapComponent(
           renderLayer.spriteSheet,
           renderLayer.matrix,
           destTileSize: flameIsometric.srcTileSize,
