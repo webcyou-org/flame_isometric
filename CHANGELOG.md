@@ -1,3 +1,7 @@
+## 0.4.1
+* Features:
+    1. Create CustomIsometricTileMapComponent.
+
 ## 0.4.0
 * Features:
     - Support for rendering multiple tile sets
