@@ -72,12 +72,16 @@ When combined, the tiled map looks like this. You can use this map to adapt the 
 
 <img width="600" src="https://user-images.githubusercontent.com/1584153/230428070-e7d902ae-2276-42d4-aff6-5a5b3e17c73b.png">
 
-The exact layer containing multiple tile chips can be obtained with renderLayerList, which is used to render the number of layers in a for statement.
+#### Using CustomIsometricTileMapComponent
+
+The exact layer containing multiple tile chips is stored in renderLayerList and can be retrieved by specifying it with a for statement.
+
+A custom version of IsometricTileMapComponent, called CustomIsometricTileMapComponent, can be used for easy rendering.
 
 ```dart
 for (var renderLayer in flameIsometric.renderLayerList) {
   add(
-    IsometricTileMapComponent(
+    CustomIsometricTileMapComponent(
       renderLayer.spriteSheet,
       renderLayer.matrix,
       destTileSize: flameIsometric.srcTileSize,
@@ -88,9 +92,9 @@ for (var renderLayer in flameIsometric.renderLayerList) {
 }
 ```
 
-Tile sets of different sizes can be displayed, but the tile size and sprite image size seem to be the same on the IsometricTileMapComponent side, so the intended display is not achieved.
-
-It seems that more work needs to be done.
+:::note warn
+Tile sets of different sizes can be displayed, but the position of the tileset to be drawn is misaligned and still needs to be adjusted.
+:::
 
 These sample sources can be found [here](https://github.com/webcyou-org/flame_isometric/tree/main/example).
 

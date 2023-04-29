@@ -1,3 +1,9 @@
+## 0.4.2
+* Refactor:
+    1. Flutter format for custom_isometric_tile_map_component.dart
+* Document:
+    1. Update README File
+
 ## 0.4.1
 * Features:
     1. Create CustomIsometricTileMapComponent.
