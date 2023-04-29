@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:flame/components.dart';
 
 class CustomIsometricTileMapComponent extends IsometricTileMapComponent {
-
   CustomIsometricTileMapComponent(
     super.tileset,
     super.matrix, {
